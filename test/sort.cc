@@ -6,11 +6,21 @@
 
 #include <sort.hpp>
 
+void print(my::container &v) {
+    for (auto &i : v) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+}
+
 class sort_test : public ::testing::Test {
   public:
-    void test(std::function<void(std::vector<int> &)> &&func) {
+    void test(std::function<void(my::container::iterator,
+                                 my::container::iterator)> &&func) {
         for (auto &v : datas) {
-            func(v);
+            print(v);
+            func(v.begin(), v.end());
+            print(v);
             EXPECT_TRUE(std::is_sorted(v.begin(), v.end()));
         }
     }

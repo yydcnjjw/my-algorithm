@@ -1,11 +1,13 @@
+#pragma once
+
 #include <cassert>
 #include <iterator>
 #include <limits>
 #include <vector>
 
-namespace my {
-using container = std::vector<int>;
+#include <container.hpp>
 
+namespace my {
 template <typename iterator>
 inline std::pair<iterator, container::value_type>
 __find_max_sum_index(iterator begin, iterator end) {

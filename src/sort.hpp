@@ -1,54 +1,53 @@
 #pragma once
 
+#include <container.hpp>
 #include <limits>
-#include <vector>
 
 namespace my {
-inline void insert_sort(std::vector<int> &v) {
-    for (int j = 1; j < v.size(); ++j) {
-        auto key = v[j];
-        int i = j - 1;
-        while (i >= 0 && v[i] > key) {
-            v[i + 1] = v[i];
-            i = i - 1;
+inline void insert_sort(container::iterator begin, container::iterator end) {
+    for (auto it{begin + 1}; it != end; ++it) {
+        auto key = *it;
+        auto rit = std::make_reverse_iterator(it);
+        auto rend = std::make_reverse_iterator(begin);
+        while (rit != rend && *rit > key) {
+            *std::prev(rit) = *rit;
+            ++rit;
         }
-        v[i + 1] = key;
+        *std::prev(rit) = key;
     }
 }
 
-inline void __merge(std::vector<int> &v, int p, int q, int r) {
-    std::vector<int> lv{v.begin() + p, v.begin() + q};
-    std::vector<int> rv{v.begin() + q, v.begin() + r};
+inline void __merge(container::iterator begin, container::iterator mid,
+                    container::iterator end) {
+    container lv{begin, mid};
+    container rv{mid, end};
 
-    std::vector<int>::const_iterator lv_i{lv.begin()}, rv_i{rv.begin()};
-    int k{p};
-    for (; k < r; ++k) {
+    container::const_iterator lv_i{lv.begin()}, rv_i{rv.begin()};
+    for (auto it{begin}; it != end; ++it) {
         if (lv_i != lv.end() && rv_i != rv.end()) {
             if (*lv_i <= *rv_i) {
-                v[k] = *lv_i++;
+                *it = *lv_i++;
             } else {
-                v[k] = *rv_i++;
+                *it = *rv_i++;
             }
             continue;
         }
 
         if (lv_i == lv.end()) {
-            v[k] = *rv_i++;
+            *it = *rv_i++;
         } else if (rv_i == rv.end()) {
-            v[k] = *lv_i++;
+            *it = *lv_i++;
         }
     }
 }
 
-inline void _merge_sort(std::vector<int> &v, int p, int r) {
-    if (r - p > 1) {
-        auto q = p + (r - p) / 2;
-        _merge_sort(v, p, q);
-        _merge_sort(v, q, r);
-        __merge(v, p, q, r);
+inline void merge_sort(container::iterator begin, container::iterator end) {
+    if (std::distance(begin, end) > 1) {
+        auto mid = std::next(begin, std::distance(begin, end) / 2);
+        merge_sort(begin, mid);
+        merge_sort(mid, end);
+        __merge(begin, mid, end);
     }
 }
-
-inline void merge_sort(std::vector<int> &v) { _merge_sort(v, 0, v.size()); }
 
 } // namespace my
