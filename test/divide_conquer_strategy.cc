@@ -22,3 +22,22 @@ TEST(divide_conquer_strategy, find_max_subarray) {
         EXPECT_EQ(43, max_subarray.sum);
     }
 }
+
+TEST(divide_conquer_strategy, square_matrix_mul) {
+    my::matrix<int> m1{4, 4, 2};
+    int v{1};
+    m1.for_each([&](auto i, auto j) { m1.set_elem(i, j, v++); });
+
+    my::print_matrix(m1);
+
+    {
+        auto m = my::matrix_mul_slow(m1, m1);
+        my::print_matrix(m);
+    }
+
+    my::print_matrix(m1);    
+    {
+        auto m = m1 * m1;
+        my::print_matrix(m);
+    }
+}

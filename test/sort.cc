@@ -6,7 +6,7 @@
 
 #include <sort.hpp>
 
-void print(my::container &v) {
+static void print(my::container &v) {
     for (auto &i : v) {
         std::cout << i << " ";
     }
