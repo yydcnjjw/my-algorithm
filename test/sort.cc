@@ -32,5 +32,7 @@ class sort_test : public ::testing::Test {
     std::vector<std::vector<int>> datas;
 };
 
-TEST_F(sort_test, insert_sort) { test(my::insert_sort); }
-TEST_F(sort_test, merge_sort) { test(my::merge_sort); }
+TEST_F(sort_test, insert_sort) { test(my::insert_sort::sort); }
+TEST_F(sort_test, merge_sort) { test(my::merge_sort::sort); }
+TEST_F(sort_test, heap_sort) { test(my::heap_sort::sort); }
+TEST_F(sort_test, quick_sort) { test(my::quick_sort::sort); }
